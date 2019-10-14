@@ -1,0 +1,28 @@
+security:
+  jwt:
+    expiration: 86400000
+    secret: "recatt-jwt"
+  public:
+    path: "/public/**"
+
+server:
+  port: 8090
+  servlet:
+    context-path: /api/recatt
+
+spring:
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: false
+    properties:
+      hibernate:
+        temp:
+          use_jdbc_metadata_defaults: false
+        format_sql: true
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:5432/recatt
+    username: ${DATABASE_USERNAME}
+    password: ${DATABASE_PASSWORD}
