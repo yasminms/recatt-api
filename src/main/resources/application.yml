@@ -1,3 +1,7 @@
+jobs:
+  scholarAttendance:
+    interval: "*/5 * * * * MON-FRI"
+
 security:
   jwt:
     expiration: 86400000
@@ -13,6 +17,10 @@ server:
 services:
   url:
     faceRecognitionApi: http://localhost:5000/api/recatt
+
+shedlock:
+  pool-size: 10
+  lock-at-most-for: 10
 
 spring:
   servlet:
