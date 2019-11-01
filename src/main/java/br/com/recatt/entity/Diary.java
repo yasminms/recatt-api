@@ -33,7 +33,7 @@ public class Diary implements Serializable {
     @ManyToMany
     @JoinTable(
             name = "student_diary",
-            joinColumns = @JoinColumn(name = "student_id"),
+            joinColumns = @JoinColumn(name = "student_email"),
             inverseJoinColumns = @JoinColumn(name = "diary_id"))
     private List<Student> students;
 

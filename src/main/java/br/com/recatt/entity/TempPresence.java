@@ -32,7 +32,7 @@ public class TempPresence implements Serializable {
     private Class actualClass;
 
     @ManyToOne
-    @JoinColumn(name = "student_id")
+    @JoinColumn(name = "student_email")
     private Student student;
 
     private LocalDateTime dateTime;

@@ -22,12 +22,15 @@ public class UserDTO implements Serializable {
 
     private String birthDate;
 
+    private Gender gender;
+
     private Role role;
 
     public UserDTO(final User user) {
         this.email = user.getEmail();
         this.fullName = user.getFullName();
         this.birthDate = LocalDateUtils.localDateToString(user.getBirthDate());
+        this.gender = user.getGender();
         this.role = user.getRole();
     }
 
@@ -35,6 +38,8 @@ public class UserDTO implements Serializable {
         this.email = userPrincipal.getEmail();
         this.fullName = userPrincipal.getFullName();
         this.birthDate = LocalDateUtils.localDateToString(userPrincipal.getBirthDate());
+        this.gender = userPrincipal.getGender();
         this.role = userPrincipal.getRole();
     }
+
 }

@@ -1,17 +1,13 @@
 package br.com.recatt.entity;
 
+import br.com.recatt.domain.Gender;
 import br.com.recatt.domain.Role;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Inheritance;
-import javax.persistence.InheritanceType;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDate;
 
@@ -43,6 +39,10 @@ public abstract class User implements Serializable {
     private String cpf;
 
     private String rg;
+
+    @Enumerated(value = EnumType.STRING)
+    @Column(nullable = false)
+    private Gender gender;
 
     public abstract Role getRole();
 
