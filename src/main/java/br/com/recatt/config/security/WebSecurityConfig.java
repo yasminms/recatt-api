@@ -70,7 +70,17 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(publicPath)
                 .permitAll()
 
-                .antMatchers(HttpMethod.POST, "/users/**")
+                .antMatchers(HttpMethod.POST, "/student")
+                .permitAll()
+
+                //permitindo todas chamadas sem autenticação TODO remover
+                .antMatchers(HttpMethod.POST, "/**")
+                .permitAll()
+                .antMatchers(HttpMethod.GET, "/**")
+                .permitAll()
+                .antMatchers(HttpMethod.DELETE, "/**")
+                .permitAll()
+                .antMatchers(HttpMethod.PUT, "/**")
                 .permitAll()
 
                 .anyRequest()
