@@ -24,7 +24,7 @@ public class RecattApplication {
     public Docket api() {
         return new Docket(DocumentationType.SWAGGER_2)
                 .select()
-                .apis(RequestHandlerSelectors.basePackage("br.com.recatt"))
+                .apis(RequestHandlerSelectors.basePackage(RecattApplication.class.getPackage().getName()))
                 .build()
                 .apiInfo(apiInfo());
     }

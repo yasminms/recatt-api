@@ -1,11 +1,11 @@
 package br.com.recatt.service;
 
-import br.com.recatt.domain.Role;
 import br.com.recatt.domain.UserDTO;
 import br.com.recatt.domain.UserRegisterRequest;
+import br.com.recatt.entity.Student;
 import br.com.recatt.entity.User;
 import br.com.recatt.exception.EmailAlreadyInUseException;
-import br.com.recatt.repository.UserRepository;
+import br.com.recatt.repository.StudentRepository;
 import br.com.recatt.utils.LocalDateUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,19 +16,19 @@ import static java.util.Objects.nonNull;
 
 @Service
 @Slf4j
-public class SaveUserService {
+public class SaveStudentService {
 
     @Autowired
-    private UserRepository userRepository;
+    private StudentRepository studentRepository;
 
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-    public UserDTO save(final UserRegisterRequest request, final Role role) {
+    public UserDTO save(final UserRegisterRequest request) {
 
-        log.info("Inserindo novo usuário: {}", request.getEmail());
+        log.info("Inserindo novo aluno: {}", request.getEmail());
 
-        final User existingUser = userRepository.findByEmail(request.getEmail());
+        final User existingUser = studentRepository.findByEmail(request.getEmail());
 
         if (nonNull(existingUser)) {
 
@@ -36,16 +36,15 @@ public class SaveUserService {
             throw new EmailAlreadyInUseException("Este e-mail já está sendo utilizado. Tente outro diferente.");
         }
 
-        User user = new User();
+        Student student = new Student();
 
-        user.setEmail(request.getEmail());
-        user.setPassword(passwordEncoder.encode(request.getPassword()));
-        user.setFullName(request.getFullName());
-        user.setCpf(request.getCpf());
-        user.setRg(request.getRg());
-        user.setBirthDate(LocalDateUtils.stringToLocalDate(request.getBirthDate()));
-        user.setRole(role);
+        student.setEmail(request.getEmail());
+        student.setPassword(passwordEncoder.encode(request.getPassword()));
+        student.setFullName(request.getFullName());
+        student.setCpf(request.getCpf());
+        student.setRg(request.getRg());
+        student.setBirthDate(LocalDateUtils.stringToLocalDate(request.getBirthDate()));
 
-        return new UserDTO(userRepository.save(user));
+        return new UserDTO(studentRepository.save(student));
     }
 }
