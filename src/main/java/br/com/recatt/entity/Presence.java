@@ -27,7 +27,7 @@ public class Presence implements Serializable {
     private Integer id;
 
     @ManyToOne
-    @JoinColumn(name = "student_id")
+    @JoinColumn(name = "student_email")
     private Student student;
 
     @ManyToOne

@@ -44,6 +44,7 @@ public class SaveStudentService {
         student.setCpf(request.getCpf());
         student.setRg(request.getRg());
         student.setBirthDate(LocalDateUtils.stringToLocalDate(request.getBirthDate()));
+        student.setGender(request.getGender());
 
         return new UserDTO(studentRepository.save(student));
     }
