@@ -34,4 +34,7 @@ public class UserRegisterRequest implements Serializable {
 
     private String rg;
 
+    @NotNull(message = "Gênero deve ser preenchido")
+    private Gender gender;
+
 }

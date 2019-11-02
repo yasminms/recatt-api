@@ -1,5 +1,6 @@
 package br.com.recatt.config.security;
 
+import br.com.recatt.domain.Gender;
 import br.com.recatt.domain.Role;
 import br.com.recatt.entity.User;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -24,6 +25,8 @@ public class UserPrincipal implements UserDetails {
 
     private LocalDate birthDate;
 
+    private Gender gender;
+
     private Role role;
 
     @JsonIgnore
@@ -31,11 +34,12 @@ public class UserPrincipal implements UserDetails {
 
     private Collection<? extends GrantedAuthority> authorities;
 
-    public UserPrincipal(String email, String password, String fullName, LocalDate birthDate, Role role, Collection<? extends GrantedAuthority> authorities) {
+    public UserPrincipal(String email, String password, String fullName, LocalDate birthDate, Gender gender, Role role, Collection<? extends GrantedAuthority> authorities) {
         this.email = email;
         this.password = password;
         this.fullName = fullName;
         this.birthDate = birthDate;
+        this.gender = gender;
         this.role = role;
         this.authorities = authorities;
     }
@@ -51,6 +55,7 @@ public class UserPrincipal implements UserDetails {
                 user.getPassword(),
                 user.getFullName(),
                 user.getBirthDate(),
+                user.getGender(),
                 user.getRole(),
                 authorities
         );

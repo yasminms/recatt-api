@@ -21,4 +21,5 @@ public class AuthResponse implements Serializable {
         this.token = token;
         this.user = new UserDTO(userPrincipal);
     }
+
 }

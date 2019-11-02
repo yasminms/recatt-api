@@ -35,15 +35,16 @@ public class SaveTeacherService {
             throw new EmailAlreadyInUseException("Este e-mail já está sendo utilizado. Tente outro diferente.");
         }
 
-        Teacher student = new Teacher();
+        Teacher teacher = new Teacher();
 
-        student.setEmail(request.getEmail());
-        student.setPassword(passwordEncoder.encode(request.getPassword()));
-        student.setFullName(request.getFullName());
-        student.setCpf(request.getCpf());
-        student.setRg(request.getRg());
-        student.setBirthDate(LocalDateUtils.stringToLocalDate(request.getBirthDate()));
+        teacher.setEmail(request.getEmail());
+        teacher.setPassword(passwordEncoder.encode(request.getPassword()));
+        teacher.setFullName(request.getFullName());
+        teacher.setCpf(request.getCpf());
+        teacher.setRg(request.getRg());
+        teacher.setBirthDate(LocalDateUtils.stringToLocalDate(request.getBirthDate()));
+        teacher.setGender(request.getGender());
 
-        return new UserDTO(teacherRepository.save(student));
+        return new UserDTO(teacherRepository.save(teacher));
     }
 }
