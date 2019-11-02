@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -30,11 +31,11 @@ public class Diary implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "student_diary",
-            joinColumns = @JoinColumn(name = "student_email"),
-            inverseJoinColumns = @JoinColumn(name = "diary_id"))
+            joinColumns = @JoinColumn(name = "diary_id"),
+            inverseJoinColumns = @JoinColumn(name = "student_email"))
     private List<Student> students;
 
     @ManyToOne
