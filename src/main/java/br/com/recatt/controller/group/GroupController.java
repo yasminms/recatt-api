@@ -13,7 +13,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/group")
-public class GroupController implements  GroupContract {
+public class GroupController implements GroupContract {
 
     @Autowired
     private FindAllGroupsService findAllGroupsService;
