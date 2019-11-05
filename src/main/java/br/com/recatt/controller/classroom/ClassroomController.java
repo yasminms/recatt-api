@@ -13,11 +13,10 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/classroom")
-public class ClassroomController implements ClassroomContract{
+public class ClassroomController implements ClassroomContract {
 
     @Autowired
     private FindAllClassroomsService findAllClassroomsService;
-
 
     @Override
     @GetMapping
