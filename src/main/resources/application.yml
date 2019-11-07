@@ -10,7 +10,14 @@ server:
   servlet:
     context-path: /api/recatt
 
+services:
+  url:
+    faceRecognitionApi: http://localhost:5000/api/recatt
+
 spring:
+  servlet:
+    multipart:
+      max-file-size: 15MB
   jpa:
     hibernate:
       ddl-auto: update
