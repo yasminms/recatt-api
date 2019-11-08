@@ -5,12 +5,12 @@ import br.com.recatt.domain.UserRegisterRequest;
 import br.com.recatt.entity.Teacher;
 import br.com.recatt.exception.EmailAlreadyInUseException;
 import br.com.recatt.repository.TeacherRepository;
-import br.com.recatt.utils.LocalDateUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import static br.com.recatt.utils.DateTimeUtils.stringToLocalDate;
 import static java.util.Objects.nonNull;
 
 @Service
@@ -42,7 +42,7 @@ public class SaveTeacherService {
         teacher.setFullName(request.getFullName());
         teacher.setCpf(request.getCpf());
         teacher.setRg(request.getRg());
-        teacher.setBirthDate(LocalDateUtils.stringToLocalDate(request.getBirthDate()));
+        teacher.setBirthDate(stringToLocalDate(request.getBirthDate()));
         teacher.setGender(request.getGender());
 
         return new UserDTO(teacherRepository.save(teacher));
