@@ -39,4 +39,13 @@ public class TempPresence implements Serializable {
 
     private boolean present;
 
+    public TempPresence(final Student student, final Class actualClass,
+                        final LocalDateTime currentTime, final boolean present) {
+
+        this.dateTime = currentTime;
+        this.present = present;
+        this.actualClass = actualClass;
+        this.student = student;
+    }
+
 }

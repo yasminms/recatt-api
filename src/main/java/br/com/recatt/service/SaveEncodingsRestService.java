@@ -23,7 +23,7 @@ import java.util.Random;
 @Slf4j
 public class SaveEncodingsRestService extends AbstractFaceRecognitionApiService {
 
-    private static final String RESOURCE = "/users?email={email}";
+    private static final String RESOURCE = "/students/attachment?email={email}";
 
     public void save(final String email, final List<MultipartFile> faceImages) throws IOException {
 

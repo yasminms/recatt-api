@@ -1,3 +1,11 @@
+attendance:
+  full-presence: 50 # minimum presence percentage required to don't miss a class
+  parcial-presence: 25
+
+face-recognition:
+  interval: 5 # must be equivalent to cron in ClassroomImageCaptureJob
+  min-distance-allowed: 0.4 # maximum distance for beign recognized as a truly student
+
 security:
   jwt:
     expiration: 86400000
@@ -12,7 +20,7 @@ server:
 
 services:
   url:
-    faceRecognitionApi: http://localhost:5000/api/recatt
+    faceRecognitionApi: http://localhost:5000/api
 
 spring:
   servlet:
