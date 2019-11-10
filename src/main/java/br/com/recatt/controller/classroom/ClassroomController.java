@@ -4,6 +4,7 @@ import br.com.recatt.entity.Classroom;
 import br.com.recatt.service.FindAllClassroomsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -19,6 +20,7 @@ public class ClassroomController implements ClassroomContract {
     private FindAllClassroomsService findAllClassroomsService;
 
     @Override
+    @PreAuthorize("hasAnyAuthority('TEACHER', 'ADMIN')")
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
     public List<Classroom> findAll() {

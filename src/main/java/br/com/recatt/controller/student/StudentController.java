@@ -6,6 +6,7 @@ import br.com.recatt.service.SaveFaceImageService;
 import br.com.recatt.service.SaveStudentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -28,6 +29,7 @@ public class StudentController implements StudentContract {
     private SaveFaceImageService faceImageService;
 
     @Override
+    @PreAuthorize("hasAnyAuthority('TEACHER', 'ADMIN')")
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public UserDTO save(@Valid @RequestBody final UserRegisterRequest request) {
@@ -35,6 +37,7 @@ public class StudentController implements StudentContract {
     }
 
     @Override
+    @PreAuthorize("hasAnyAuthority('TEACHER', 'ADMIN')")
     @PostMapping("/attachment")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void saveFaceImages(@RequestParam("email") final String email, @RequestParam("faceImages") final List<MultipartFile> faceImages) {

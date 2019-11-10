@@ -4,6 +4,7 @@ import br.com.recatt.domain.ClassRegisterRequest;
 import br.com.recatt.service.SaveClassService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,6 +21,7 @@ public class ClassController implements ClassContract {
     private SaveClassService saveClassService;
 
     @Override
+    @PreAuthorize("hasAnyAuthority('TEACHER')")
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public void save(@Valid @RequestBody final ClassRegisterRequest request) {

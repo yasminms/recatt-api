@@ -1,3 +1,7 @@
+administrator:
+  email: admin@admin.com
+  password: ${ADMIN_PASSWORD}
+
 attendance:
   full-presence: 50 # minimum presence percentage required to don't miss a class
   parcial-presence: 25
