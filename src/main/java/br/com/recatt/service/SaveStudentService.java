@@ -6,12 +6,12 @@ import br.com.recatt.entity.Student;
 import br.com.recatt.entity.User;
 import br.com.recatt.exception.EmailAlreadyInUseException;
 import br.com.recatt.repository.StudentRepository;
-import br.com.recatt.utils.LocalDateUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import static br.com.recatt.utils.DateTimeUtils.stringToLocalDate;
 import static java.util.Objects.nonNull;
 
 @Service
@@ -43,7 +43,7 @@ public class SaveStudentService {
         student.setFullName(request.getFullName());
         student.setCpf(request.getCpf());
         student.setRg(request.getRg());
-        student.setBirthDate(LocalDateUtils.stringToLocalDate(request.getBirthDate()));
+        student.setBirthDate(stringToLocalDate(request.getBirthDate()));
         student.setGender(request.getGender());
 
         return new UserDTO(studentRepository.save(student));

@@ -1,8 +1,7 @@
-package br.com.recatt.controller.teacher;
+package br.com.recatt.controller.classes;
 
-import br.com.recatt.domain.UserDTO;
-import br.com.recatt.domain.UserRegisterRequest;
-import br.com.recatt.service.SaveTeacherService;
+import br.com.recatt.domain.ClassRegisterRequest;
+import br.com.recatt.service.SaveClassService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -15,18 +14,17 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.validation.Valid;
 
 @RestController
-@RequestMapping("/teacher")
-public class TeacherController implements TeacherContract {
+@RequestMapping("/class")
+public class ClassController implements ClassContract {
 
     @Autowired
-    private SaveTeacherService saveTeacherService;
+    private SaveClassService saveClassService;
 
     @Override
-    @PreAuthorize("hasAnyAuthority('ADMIN')")
+    @PreAuthorize("hasAnyAuthority('TEACHER')")
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public UserDTO save(@Valid @RequestBody final UserRegisterRequest request) {
-        return saveTeacherService.save(request);
+    public void save(@Valid @RequestBody final ClassRegisterRequest request) {
+        saveClassService.save(request);
     }
-
 }

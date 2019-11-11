@@ -1,3 +1,25 @@
+administrator:
+  email: admin@admin.com
+  password: ${ADMIN_PASSWORD}
+
+attendance:
+  full-presence: 50 # minimum presence percentage required to don't miss a class
+  parcial-presence: 25
+
+face-recognition:
+  interval: 5 # must be equivalent to cron in ClassroomImageCaptureJob
+  min-distance-allowed: 0.4 # maximum distance for beign recognized as a truly student
+
+school:
+  break:
+    start: "09:45" # HH:mm
+    end: "10:00"
+  classes:
+    start: "20/02/2019" # dd/MM/yyyy
+    end: "20/12/2019"
+  period:
+    duration: 45 # period duration in minutes
+
 security:
   jwt:
     expiration: 86400000
@@ -12,7 +34,7 @@ server:
 
 services:
   url:
-    faceRecognitionApi: http://localhost:5000/api/recatt
+    faceRecognitionApi: http://localhost:5000/api
 
 spring:
   servlet:
