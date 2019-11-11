@@ -2,11 +2,13 @@ package br.com.recatt.controller.student;
 
 import br.com.recatt.domain.UserDTO;
 import br.com.recatt.domain.UserRegisterRequest;
+import br.com.recatt.service.FindAllStudentsService;
 import br.com.recatt.service.SaveFaceImageService;
 import br.com.recatt.service.SaveStudentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -28,6 +30,9 @@ public class StudentController implements StudentContract {
     @Autowired
     private SaveFaceImageService faceImageService;
 
+    @Autowired
+    private FindAllStudentsService findAllStudentsService;
+
     @Override
     @PreAuthorize("hasAnyAuthority('TEACHER', 'ADMIN')")
     @PostMapping
@@ -44,4 +49,11 @@ public class StudentController implements StudentContract {
         faceImageService.save(email, faceImages);
     }
 
+    @Override
+    @PreAuthorize("hasAnyAuthority('TEACHER', 'ADMIN')")
+    @GetMapping
+    @ResponseStatus(HttpStatus.OK)
+    public List<UserDTO> findAll() {
+        return findAllStudentsService.findAll();
+    }
 }

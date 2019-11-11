@@ -17,4 +17,6 @@ public interface StudentContract {
     @ApiOperation(value = "Insere uma ou mais imagens de um aluno")
     void saveFaceImages(final String email, final List<MultipartFile> faceImages);
 
+    @ApiOperation(value = "Lista todos os alunos cadastrados")
+    List<UserDTO> findAll();
 }
