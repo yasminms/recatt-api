@@ -6,6 +6,7 @@ import br.com.recatt.entity.Student;
 import br.com.recatt.entity.TempPresence;
 import br.com.recatt.repository.TempPresenceRepository;
 import br.com.recatt.utils.ParseUtils;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -16,11 +17,21 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import static br.com.recatt.utils.DateTimeUtils.isBetween;
+import static br.com.recatt.utils.DateTimeUtils.stringToLocalTime;
+
 @Service
+@Slf4j
 public class ClassroomFaceRecognitionService extends AbstractFaceRecognitionApiService {
 
     @Value("${face-recognition.interval}")
     private Integer attendanceInterval;
+
+    @Value("${school.break.start}")
+    private String breakStart;
+
+    @Value("${school.break.end}")
+    private String breakEnd;
 
     @Value("${face-recognition.min-distance-allowed}")
     private Double maxDistance;
@@ -42,39 +53,45 @@ public class ClassroomFaceRecognitionService extends AbstractFaceRecognitionApiS
 
         final LocalDateTime currentTime = LocalDateTime.now();
 
-        final List<Class> classes = findByActiveClasses.findAll(currentTime);
+        if (!isBetween(currentTime.toLocalTime(), stringToLocalTime(breakStart), stringToLocalTime(breakEnd))) {
 
-        for (Class actualClass : classes) {
+            final List<Class> classes = findByActiveClasses.findAll(currentTime);
 
-            final List<PresentStudent> students = classroomEncodingsRestService.find(actualClass).getStudents();
-            final List<Student> classStudents = actualClass.getDiary().getStudents();
+            for (Class actualClass : classes) {
 
-            final List<TempPresence> presentStudents = classStudents.stream()
-                    .filter(student -> students.stream()
-                            .filter(this::verifyStudent)
-                            .anyMatch(presentStudent -> presentStudent.getEmail().equals(student.getEmail())))
-                    .map(student -> new TempPresence(student, actualClass, currentTime, true))
-                    .collect(Collectors.toList());
+                final List<PresentStudent> students = classroomEncodingsRestService.find(actualClass).getStudents();
+                final List<Student> classStudents = actualClass.getDiary().getStudents();
 
-            final List<TempPresence> notPresentStudents = classStudents.stream()
-                    .filter(student -> students.stream()
-                            .filter(this::verifyStudent)
-                            .noneMatch(presentStudent -> presentStudent.getEmail().equals(student.getEmail())))
-                    .map(student -> new TempPresence(student, actualClass, currentTime, false))
-                    .collect(Collectors.toList());
+                final List<TempPresence> presentStudents = classStudents.stream()
+                        .filter(student -> students.stream()
+                                .filter(this::verifyStudent)
+                                .anyMatch(presentStudent -> presentStudent.getEmail().equals(student.getEmail())))
+                        .map(student -> new TempPresence(student, actualClass, currentTime, true))
+                        .collect(Collectors.toList());
 
-            final List<TempPresence> tempPresences = Stream.concat(presentStudents.stream(), notPresentStudents.stream()).collect(Collectors.toList());
+                final List<TempPresence> notPresentStudents = classStudents.stream()
+                        .filter(student -> students.stream()
+                                .filter(this::verifyStudent)
+                                .noneMatch(presentStudent -> presentStudent.getEmail().equals(student.getEmail())))
+                        .map(student -> new TempPresence(student, actualClass, currentTime, false))
+                        .collect(Collectors.toList());
 
-            tempPresenceRepository.saveAll(tempPresences);
+                final List<TempPresence> tempPresences = Stream.concat(presentStudents.stream(), notPresentStudents.stream()).collect(Collectors.toList());
 
-            final boolean isLastClassUpdate = currentTime.plusMinutes(attendanceInterval).isAfter(actualClass.getEndTime());
+                tempPresenceRepository.saveAll(tempPresences);
 
-            if (isLastClassUpdate) {
+                final boolean isLastClassUpdate = currentTime.plusMinutes(attendanceInterval).isAfter(actualClass.getEndTime());
 
-                finishClassService.finish(classStudents, actualClass);
+                if (isLastClassUpdate) {
+
+                    finishClassService.finish(classStudents, actualClass);
+                }
             }
+
+            return;
         }
 
+        log.info("Estudantes em intervalo. Ignorando controle de frequência.");
     }
 
     private boolean verifyStudent(final PresentStudent presentStudent) {
