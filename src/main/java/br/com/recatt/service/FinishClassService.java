@@ -1,5 +1,6 @@
 package br.com.recatt.service;
 
+import br.com.recatt.domain.PresenceStatus;
 import br.com.recatt.entity.Class;
 import br.com.recatt.entity.Presence;
 import br.com.recatt.entity.Student;
@@ -14,6 +15,9 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 
+import static br.com.recatt.domain.PresenceStatus.NOT_PRESENT;
+import static br.com.recatt.domain.PresenceStatus.PARCIAL;
+import static br.com.recatt.domain.PresenceStatus.PRESENT;
 import static br.com.recatt.utils.ParseUtils.getPercentage;
 import static org.hibernate.type.IntegerType.ZERO;
 
@@ -52,6 +56,7 @@ public class FinishClassService {
             presence.setActualClass(actualClass);
             presence.setStudent(student);
             presence.setMissedClasses(getTotalMissedClasses(presencePercentage, actualClass));
+            presence.setStatus(getPresenceStatus(presence));
 
             studentPresences.add(presence);
         }
@@ -70,5 +75,21 @@ public class FinishClassService {
         }
 
         return missedClasses;
+    }
+
+    private PresenceStatus getPresenceStatus(final Presence presence) {
+
+        final Integer missedClasses = presence.getMissedClasses();
+        final Integer period = presence.getActualClass().getPeriod();
+
+        if (ZERO.equals(missedClasses)) {
+
+            return PRESENT;
+        } else if (period.equals(missedClasses)) {
+
+            return NOT_PRESENT;
+        }
+
+        return PARCIAL;
     }
 }

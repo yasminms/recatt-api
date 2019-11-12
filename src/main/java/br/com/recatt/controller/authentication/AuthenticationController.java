@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
 
+import static br.com.recatt.mapper.AuthResponseMapper.apply;
+
 @RestController
 @RequestMapping("/public/auth")
 public class AuthenticationController implements AuthenticationContract {
@@ -23,6 +25,6 @@ public class AuthenticationController implements AuthenticationContract {
     @PostMapping
     public AuthResponse authenticate(@Valid @RequestBody final AuthRequest authRequest) {
         final String token = authenticationService.authenticate(authRequest.getEmail(), authRequest.getPassword());
-        return new AuthResponse(token, CustomUserDetailsService.getUser());
+        return apply(token, CustomUserDetailsService.getUser());
     }
 }

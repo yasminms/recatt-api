@@ -1,6 +1,7 @@
 package br.com.recatt.service;
 
 import br.com.recatt.domain.UserDTO;
+import br.com.recatt.mapper.UserDTOMapper;
 import br.com.recatt.repository.StudentRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +21,6 @@ public class FindAllStudentsService {
 
         log.info("Listando os alunos");
 
-        return studentRepository.findAll().stream().map(UserDTO::new).collect(Collectors.toList());
+        return studentRepository.findAll().stream().map(UserDTOMapper::apply).collect(Collectors.toList());
     }
 }

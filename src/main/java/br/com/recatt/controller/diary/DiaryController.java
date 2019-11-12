@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -38,7 +39,7 @@ public class DiaryController implements DiaryContract {
     @PreAuthorize("hasAnyAuthority('TEACHER', 'ADMIN')")
     @PostMapping
     @ResponseStatus(HttpStatus.OK)
-    public List<DiaryDTO> saveStudents(@RequestBody final DiaryStudentsRequest request) {
+    public List<DiaryDTO> saveStudents(@Valid @RequestBody final DiaryStudentsRequest request) {
         return saveDiaryStudentsService.save(request);
     }
 
