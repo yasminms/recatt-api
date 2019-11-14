@@ -13,11 +13,11 @@ public interface PresenceContract {
     @ApiOperation(value = "Lista todas presenças e faltas do aluno logado")
     List<PresenceDTO> findAllPresences();
 
-    @ApiOperation(value = "Solicita uma correção de presença")
-    void savePresenceRequest(final Integer presenceId);
+    @ApiOperation(value = "Solicita uma correção de presença e retorna presenças atualizadas")
+    List<PresenceDTO> savePresenceRequest(final Integer presenceId);
 
-    @ApiOperation(value = "Atualiza e finaliza uma solicitação de correção de presença")
-    void updatePresenceRequest(final Integer presenceId, final boolean status);
+    @ApiOperation(value = "Atualiza e finaliza uma solicitação de correção de presença e retorna solicitações atualizadas")
+    List<PresenceRequestDTO> updatePresenceRequest(final Integer presenceId, final boolean status);
 
     @ApiOperation(value = "Lista todas solicitações de correção de presença")
     List<PresenceRequestDTO> findAllRequestPresences();

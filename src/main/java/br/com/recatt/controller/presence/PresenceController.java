@@ -47,13 +47,14 @@ public class PresenceController implements PresenceContract {
     @Override
     @PreAuthorize("hasAnyAuthority('STUDENT')")
     @PostMapping("/{id}/request")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void savePresenceRequest(@PathVariable("id") final Integer presenceId) {
+    @ResponseStatus(HttpStatus.OK)
+    public List<PresenceDTO> savePresenceRequest(@PathVariable("id") final Integer presenceId) {
         presenceRequestService.request(presenceId);
+        return findAllPresencesService.findAll();
     }
 
     @Override
-    @PreAuthorize("hasAnyAuthority('TEACHER')")
+    @PreAuthorize("hasAnyAuthority('TEACHER', 'ADMIN')")
     @GetMapping("/request")
     @ResponseStatus(HttpStatus.OK)
     public List<PresenceRequestDTO> findAllRequestPresences() {
@@ -61,10 +62,11 @@ public class PresenceController implements PresenceContract {
     }
 
     @Override
-    @PreAuthorize("hasAnyAuthority('TEACHER')")
+    @PreAuthorize("hasAnyAuthority('TEACHER', 'ADMIN')")
     @PutMapping("/{id}/request")
     @ResponseStatus(HttpStatus.OK)
-    public void updatePresenceRequest(@PathVariable("id") final Integer presenceRequestId, @RequestParam("status") boolean status) {
+    public List<PresenceRequestDTO> updatePresenceRequest(@PathVariable("id") final Integer presenceRequestId, @RequestParam("status") boolean status) {
         updatePresenceRequest.update(presenceRequestId, status);
+        return findAllPresenceRequest.findAll();
     }
 }

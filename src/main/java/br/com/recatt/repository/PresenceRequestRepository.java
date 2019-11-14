@@ -17,4 +17,8 @@ public interface PresenceRequestRepository extends JpaRepository<PresenceRequest
             "AND pr.status = 'AWAITING_REVIEW'")
     List<PresenceRequest> findAllRequests(@Param("teacher") Teacher teacher);
 
+    @Query("FROM PresenceRequest pr " +
+            "WHERE pr.status = 'AWAITING_REVIEW'")
+    List<PresenceRequest> findAllRequests();
+
 }
