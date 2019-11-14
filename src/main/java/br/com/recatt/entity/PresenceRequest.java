@@ -31,7 +31,7 @@ public class PresenceRequest implements Serializable {
     private Integer id;
 
     @OneToOne
-    @JoinColumn(name = "presence_id", unique = true)
+    @JoinColumn(name = "presence_id")
     private Presence presence;
 
     @Enumerated(value = EnumType.STRING)

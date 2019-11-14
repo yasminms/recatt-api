@@ -1,6 +1,7 @@
 package br.com.recatt.controller.presence;
 
 import br.com.recatt.domain.PresenceDTO;
+import br.com.recatt.domain.PresenceRequestDTO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 
@@ -13,6 +14,12 @@ public interface PresenceContract {
     List<PresenceDTO> findAllPresences();
 
     @ApiOperation(value = "Solicita uma correção de presença")
-    void requestPresence(final Integer presenceId);
+    void savePresenceRequest(final Integer presenceId);
+
+    @ApiOperation(value = "Atualiza e finaliza uma solicitação de correção de presença")
+    void updatePresenceRequest(final Integer presenceId, final boolean status);
+
+    @ApiOperation(value = "Lista todas solicitações de correção de presença")
+    List<PresenceRequestDTO> findAllRequestPresences();
 
 }
