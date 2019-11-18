@@ -1,6 +1,6 @@
 package br.com.recatt.entity;
 
-import br.com.recatt.domain.PresenceStatus;
+import br.com.recatt.domain.PresenceRequestStatus;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -14,7 +14,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import java.io.Serializable;
 
@@ -23,29 +22,19 @@ import java.io.Serializable;
 @Getter
 @NoArgsConstructor
 @Setter
-public class Presence implements Serializable {
+public class PresenceRequest implements Serializable {
 
-    private static final long serialVersionUID = 9031734288407824147L;
+    private static final long serialVersionUID = -3943194356672344837L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @ManyToOne
-    @JoinColumn(name = "student_email")
-    private Student student;
-
-    @ManyToOne
-    @JoinColumn(name = "class_id")
-    private Class actualClass;
-
-    @OneToOne(mappedBy = "presence")
-    private PresenceRequest presenceRequest;
-
-    private Integer missedClasses;
+    @OneToOne
+    @JoinColumn(name = "presence_id")
+    private Presence presence;
 
     @Enumerated(value = EnumType.STRING)
     @Column(nullable = false)
-    private PresenceStatus status;
-
+    private PresenceRequestStatus status;
 }

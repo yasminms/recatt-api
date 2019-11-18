@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import static br.com.recatt.mapper.UserDTOMapper.apply;
 import static br.com.recatt.utils.DateTimeUtils.stringToLocalDate;
 import static java.util.Objects.nonNull;
 
@@ -45,6 +46,6 @@ public class SaveTeacherService {
         teacher.setBirthDate(stringToLocalDate(request.getBirthDate()));
         teacher.setGender(request.getGender());
 
-        return new UserDTO(teacherRepository.save(teacher));
+        return apply(teacherRepository.save(teacher));
     }
 }
