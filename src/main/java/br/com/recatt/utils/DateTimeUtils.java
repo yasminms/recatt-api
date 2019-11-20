@@ -5,6 +5,7 @@ import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 
 import static java.time.format.DateTimeFormatter.ofPattern;
+import static java.util.Optional.ofNullable;
 
 public final class DateTimeUtils {
 
@@ -19,7 +20,7 @@ public final class DateTimeUtils {
     }
 
     public static LocalTime stringToLocalTime(final String stringTime) {
-        return LocalTime.parse(stringTime, ofPattern("H:mm"));
+        return LocalTime.parse(ofNullable(stringTime).orElse("00:00"), ofPattern("H:mm"));
     }
 
     public static Integer getMinutesDuration(final LocalTime time) {
